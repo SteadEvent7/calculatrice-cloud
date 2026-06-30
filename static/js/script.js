@@ -54,11 +54,25 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const response = await fetch("/calculate", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest",
+                },
                 body: JSON.stringify({ num1, num2, operation }),
             });
 
-            const data = await response.json();
+            let data;
+            const contentType = response.headers.get("content-type") || "";
+            if (contentType.includes("application/json")) {
+                data = await response.json();
+            } else {
+                showError(
+                    response.status === 404
+                        ? "Route introuvable. Vérifiez que l'application Flask tourne (Web Service sur Render, pas un site statique)."
+                        : "Réponse serveur invalide. Lancez l'app avec : python app.py"
+                );
+                return;
+            }
 
             if (!response.ok) {
                 showError(data.error || "Une erreur est survenue.");
@@ -67,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             showResult(formatResult(data.result));
         } catch {
-            showError("Impossible de contacter le serveur. Vérifiez votre connexion.");
+            showError("Impossible de contacter le serveur. Lancez Flask avec : python app.py");
         } finally {
             submitBtn.disabled = false;
         }
