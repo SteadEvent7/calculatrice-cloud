@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculatrice Cloud</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Calculatrice Cloud</h1>
+            <p class="subtitle">Effectuez vos opérations mathématiques en ligne</p>
+        </header>
+
+        <main class="calculator">
+            <form id="calc-form" novalidate>
+                <div class="form-group">
+                    <label for="num1">Premier nombre</label>
+                    <input type="text" id="num1" name="num1" placeholder="Ex : 12.5" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="operation">Opération</label>
+                    <select id="operation" name="operation" required>
+                        <option value="">— Choisir —</option>
+                        <option value="add">Addition (+)</option>
+                        <option value="subtract">Soustraction (−)</option>
+                        <option value="multiply">Multiplication (×)</option>
+                        <option value="divide">Division (÷)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="num2">Deuxième nombre</label>
+                    <input type="text" id="num2" name="num2" placeholder="Ex : 3" required>
+                </div>
+
+                <div class="buttons">
+                    <button type="submit" class="btn btn-primary">Calculer</button>
+                    <button type="button" id="reset-btn" class="btn btn-secondary">Réinitialiser</button>
+                </div>
+            </form>
+
+            <div id="result-panel" class="result-panel hidden">
+                <span class="result-label">Résultat</span>
+                <span id="result-value" class="result-value"></span>
+            </div>
+
+            <div id="error-panel" class="error-panel hidden">
+                <span id="error-message"></span>
+            </div>
+        </main>
+
+        <footer>
+            <p>Hébergée sur le cloud · Flask &amp; Render</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
